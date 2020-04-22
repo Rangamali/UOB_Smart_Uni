@@ -12,8 +12,8 @@ public class DbConnection {
       Class.forName("com.mysql.jdbc.Driver");
       // Setup the connection with the DB
       connect = DriverManager
-          .getConnection("jdbc:mysql://192.168.43.173:3306/university_students?useUnicode=yes",
-              "root", "root");
+              .getConnection("jdbc:mysql://192.168.43.12:3306/university_students?useUnicode=yes",
+                      "root", "root");
     } catch (Exception e) {
       e.printStackTrace();
     }

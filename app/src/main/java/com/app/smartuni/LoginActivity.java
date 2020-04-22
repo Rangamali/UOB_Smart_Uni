@@ -38,10 +38,13 @@ public class LoginActivity extends BaseActivity {
     ButterKnife.bind(this);
     mContext = this;
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+    //mUserName.setText("test");
+    mUserName.setText("admin");
+    mPassword.setText("123");
     mEdit = prefs.edit();
     remember_me.setOnCheckedChangeListener(
         (buttonView, isChecked) -> mEdit.putBoolean("remember_me", isChecked));
-    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    // startActivity(new Intent(getApplicationContext(), HomeActivity.class));
 
   }
 
@@ -61,7 +64,7 @@ public class LoginActivity extends BaseActivity {
     if (isValidForm()) {
       String mUserNameString = mUserName.getText().toString().trim();
       String mPasswordString = mPassword.getText().toString().trim();
-      showProgress();
+      //showProgress();
       new Thread(new Runnable() {
         @Override public void run() {
           try {
@@ -77,11 +80,19 @@ public class LoginActivity extends BaseActivity {
               System.out.println(mResults.getString("user_name") + "-----------");
               String mName = mResults.getString("user_name");
               String first_name = mResults.getString("first_name");
+              String userId = mResults.getString("iduser");
               String last_name = mResults.getString("last_name");
+              Integer userRole = mResults.getInt("user_role");
+              if (userRole == 0) {
+                mEdit.putBoolean("is_admin", false);
+              } else {
+                mEdit.putBoolean("is_admin", true);
+              }
 
               mEdit.putString("user_name", mName);
               mEdit.putString("first_name", first_name);
               mEdit.putString("last_name", last_name);
+              mEdit.putString("user_id", userId);
               mEdit.apply();
               mResults.close();
               startActivity(new Intent(getApplicationContext(), HomeActivity.class));
